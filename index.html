@@ -1,0 +1,664 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Tutor - Business Plan and Competitor Prices</title>
+<style>
+  body { font-family: -apple-system, Arial, Helvetica, sans-serif; color: #111; background: #fff; margin: 0; line-height: 1.6; }
+  .topbar { position: sticky; top: 0; z-index: 20; background: #fff; border-bottom: 1px solid #e5e5e5; }
+  .topinner { max-width: 1020px; margin: 0 auto; padding: 14px 20px 12px; }
+  h1 { font-size: 24px; margin: 0; }
+  .sub { color: #555; margin: 4px 0 10px; font-size: 14px; }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tabs button { font-size: 14px; border: 1px solid #ddd; border-radius: 20px; padding: 7px 14px; background: #fff; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+  .tabs button.on { background: #111; color: #fff; border-color: #111; }
+  .ticon { width: 15px; height: 15px; flex: none; }
+  .hero { border: 1px solid #eee; border-radius: 12px; background: #fafafa; padding: 14px 16px; margin: 16px 0 4px; display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+  .hero .item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #333; }
+  .hero .art { width: 34px; height: 34px; border-radius: 9px; background: #fff; border: 1px solid #e5e5e5; display: flex; align-items: center; justify-content: center; flex: none; }
+  .hero svg { width: 19px; height: 19px; }
+  .hicon { width: 17px; height: 17px; vertical-align: -3px; margin-right: 7px; }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: 20px 20px 60px; }
+  .panel { display: none; }
+  .panel.show { display: block; }
+  .layout { display: grid; grid-template-columns: 210px 1fr; gap: 24px; align-items: start; }
+  .toc { position: sticky; top: 132px; border: 1px solid #eee; border-radius: 10px; padding: 12px 14px; font-size: 13px; background: #fafafa; }
+  .toc b { display: block; margin-bottom: 8px; font-size: 13px; }
+  .toc a { display: block; color: #333; text-decoration: none; padding: 4px 0; }
+  .toc a:hover { text-decoration: underline; }
+  h2 { font-size: 21px; margin: 28px 0 10px; }
+  h3 { font-size: 16px; margin: 20px 0 8px; }
+  p, li { font-size: 15px; }
+  .card { border: 1px solid #e5e5e5; border-radius: 10px; padding: 16px 18px; margin: 12px 0; background: #fff; }
+  .price { font-weight: bold; }
+  .tablewrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; min-width: 620px; }
+  th, td { text-align: left; border-bottom: 1px solid #eee; padding: 9px 8px; vertical-align: top; }
+  th { background: #f7f7f7; position: sticky; top: 0; }
+  .tag { display: inline-block; font-size: 12px; border: 1px solid #ddd; border-radius: 20px; padding: 2px 10px; color: #333; margin: 2px 6px 2px 0; }
+  .note { background: #f7f7f7; border-radius: 8px; padding: 12px 14px; font-size: 14px; }
+  .check { list-style: none; padding: 0; margin: 0; }
+  .check li { border: 1px solid #eee; border-radius: 8px; padding: 10px 12px; margin: 8px 0; font-size: 14px; background: #fff; }
+  .pill { font-size: 11px; border-radius: 10px; padding: 2px 8px; margin-left: 8px; white-space: nowrap; }
+  .high { background: #e6f4ea; } .med { background: #fef7e0; } .low { background: #fce8e6; }
+  .comparebar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 12px 0 4px; }
+  .seg { display: inline-flex; border: 1px solid #ddd; border-radius: 20px; overflow: hidden; }
+  .seg button { border: 0; background: #fff; font-size: 13px; padding: 7px 14px; cursor: pointer; }
+  .seg button.on { background: #111; color: #fff; }
+  #mq { font-size: 14px; border: 1px solid #ddd; border-radius: 20px; padding: 7px 14px; min-width: 180px; }
+  .legend { font-size: 12px; color: #555; margin: 8px 0 0; }
+  .fine { font-size: 12px; color: #666; margin: 6px 0 0; }
+  #masterTable th { cursor: pointer; white-space: nowrap; user-select: none; }
+  #masterTable th .arr { color: #999; font-size: 11px; }
+  .pf, .pl, .gv, .tt { display: inline-block; border-radius: 20px; padding: 2px 10px; font-size: 12px; white-space: nowrap; }
+  .pf-low { background: #e6f4ea; } .pf-mid { background: #fef7e0; } .pf-high { background: #fce8e6; }
+  .pl-1 { background: #f1f3f4; } .pl-2 { background: #e8f0fe; } .pl-4 { background: #d2e3fc; }
+  .g-yes { background: #e6f4ea; } .g-no { background: #f1f3f4; color: #666; }
+  .tt { background: #f1f3f4; }
+  tr.usrow td { background: #fff8e1; }
+  tr.usrow td:first-child { border-left: 3px solid #f9ab00; }
+  footer { color: #666; font-size: 13px; margin-top: 30px; border-top: 1px solid #e5e5e5; padding-top: 16px; }
+  @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } .toc { position: static; } }
+</style>
+</head>
+<body>
+<div class="topbar">
+<div class="topinner">
+<h1>AI Tutor - Plan and Prices</h1>
+<p class="sub">College test first. Virtual only. Updated Sept 2026.</p>
+<div class="tabs" role="tablist">
+<button class="on" data-tab="plan"><svg class="ticon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/></svg>Plan</button>
+<button data-tab="demo"><svg class="ticon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>Live Demo</button>
+<button data-tab="levels"><svg class="ticon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>Levels</button>
+<button data-tab="rivals"><svg class="ticon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20v-7"/><path d="M11 20V6"/><path d="M17 20v-10"/><path d="M3 20h18"/></svg>Competitors</button>
+<button data-tab="money"><svg class="ticon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 7.5v9"/><path d="M14.8 9.3c-.6-.9-1.7-1.3-2.8-1.3-1.6 0-2.8.9-2.8 2.4 0 3.3 5.6 1.5 5.6 4.7 0 1.5-1.2 2.4-2.8 2.4-1.1 0-2.2-.5-2.8-1.4"/></svg>Money</button>
+<button data-tab="research"><svg class="ticon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.3l2.4 2.4 4.6-5.4"/></svg>Research Checklist</button>
+<button data-tab="seo"><svg class="ticon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M15.5 15.5L20 20"/></svg>SEO Map</button>
+<button data-tab="ssat"><svg class="ticon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l10 5-10 5L2 9l10-5z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/></svg>SSAT Track</button>
+</div>
+</div>
+</div>
+
+<div class="wrap">
+
+<div class="hero">
+<div class="item"><span class="art"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4"/><path d="M16 3v4"/></svg></span><span><b>Daily plan</b><br>20 min tied to test date</span></div>
+<div class="item"><span class="art"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M15.5 15.5L20 20"/><path d="M8.5 11l1.8 1.8 3.2-3.8"/></svg></span><span><b>Trap finder</b><br>Spots repeat wrong picks</span></div>
+<div class="item"><span class="art"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M4 16l4.5-5 3.5 3 5-6.5 3 3.5"/></svg></span><span><b>Score predictor</b><br>Trend plus hours studied</span></div>
+</div>
+
+<!-- TAB: PLAN -->
+<div class="panel show" id="panel-plan">
+<div class="layout">
+<aside class="toc"><b>On this tab</b><a href="#p-answer">Short answer</a><a href="#p-sell">What we sell</a><a href="#p-win">How we win</a><a href="#p-next">Next steps</a></aside>
+<div>
+<h2 id="p-answer">Short answer</h2>
+<div class="note">
+<b>Yes, online is usually cheaper.</b> No travel, no room cost, one tutor can serve any city. College test human help runs about $100-300 per hour in 2026. Top names charge $200-500 per hour. Group video classes run $500-1,500 total. Self-paced video runs $129-397. Law test human help runs about $100-300 per hour, top tutors $500-1,000 per hour. Monthly AI-led courses run $69-179 per month. General AI tutor runs $4 per month. Free official practice exists for both tests.
+</div>
+<h2 id="p-sell">What we will sell</h2>
+<p>A virtual AI tutor that acts like a strict coach, not a video library. It finds your repeat mistake pattern, gives you a daily plan tied to your test date, and predicts your score.</p>
+<p>Start with reading and writing because short passages plus clear rules are the fastest to tutor well. Add math next with the built-in graphing calculator. Tutors are skilled remote staff, hired on score and teaching proof, shown with real names and real voices. No fake identities, ever. Trust is the product.</p>
+<h2 id="p-win">How we win</h2>
+<ul>
+<li>Do not sell more questions. Sell a finish-by-date plan with proof.</li>
+<li>Own one slice first: juniors stuck at 1000-1250 who need a math lift, plus 1250-1400 pushers. Parents in this band pay fastest.</li>
+<li>Get first buyers with a free 5-minute score check on short video apps, not paid ads against big brands.</li>
+<li>Keep the same teacher in high-touch groups. Buyers stay for the teacher.</li>
+<li>Charge for value, not hours. One monthly price per level, cancel anytime, parent sees work done and score trend.</li>
+</ul>
+<h2 id="p-next">Next steps</h2>
+<ul>
+<li>Build reading trap finder + daily plan + predictor first</li>
+<li>Add math engine with graphing calculator steps</li>
+<li>Add monthly human review flow with mistake log</li>
+<li>Add one high-touch group per week, same teacher, cap at 8</li>
+<li>Track: trial to paid, weekly study days, predicted vs real score gap, refund rate</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- TAB: DEMO -->
+<div class="panel" id="panel-demo">
+<div class="layout">
+<aside class="toc"><b>On this tab</b><a href="#d-try">Try the check</a><a href="#d-what">What it proves</a></aside>
+<div>
+<h2 id="d-try">Live demo: 5-question SAT check</h2>
+<p class="fine">Sample only. Original practice items written for this demo, not real test questions. The real check uses 40 items and places your score band. Pick an answer, ask for hints, then check.</p>
+<div id="quiz"></div>
+<h2 id="d-what">What this proves in 3 minutes</h2>
+<ul>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:5px;"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.7 1 1.5 1 2.5h6c0-1 .2-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg><b>Hint ladder:</b> nudges before answers, so struggle stays productive.</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:5px;"><path d="M12 3l10 17H2L12 3z"/><path d="M12 10v4M12 17.5v.5"/></svg><b>Trap callouts:</b> every miss names the exact trap, which feeds the trap finder.</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:5px;"><path d="M3 20h18"/><path d="M4 16l4-5 3 3 5-6.5 3 3.5"/></svg><b>Band predictor:</b> a range, never false precision.</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:5px;"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-3.5 4-5 7-5s6 1.5 7 5"/></svg><b>Parent note plus tutor note:</b> generated from real performance below.</li>
+</ul>
+</div>
+</div>
+</div>
+<script>
+var DQ = [
+{skill:"Words in context", passage:"The lighthouse keeper's log was surprisingly plain: instead of tales of storms and rescues, most entries recorded the price of oil, the state of the wicks, and long lists of supplies.",
+q:"Which choice completes the text with the most logical word? The log was surprisingly ___.",
+choices:["fanciful","mundane","urgent","secretive"], answer:1, trap:0, traplabel:"storybook answer",
+hints:["What did the log actually contain?", "Oil prices and supply lists are ordinary, not dramatic."],
+why:"The entries are ordinary records, so mundane fits. Fanciful is the trap: the storm-and-rescue setup lures you toward drama the log does not contain."},
+{skill:"Main idea", passage:"In the last decade, several cities have placed hives on rooftops and in parks. Studies found city honey holds up well, and bee counts rose near mixed plantings. The trend suggests dense neighborhoods, once seen as hostile to pollinators, can support them when given nesting space and diverse plants.",
+q:"Which choice best states the main idea?",
+choices:["City honey tastes better than farm honey","Cities can support bees with nesting space and plants","Rooftops make the best hives","Bees prefer cities to farms"], answer:1, trap:3, traplabel:"too-strong answer",
+hints:["What claim do ALL the sentences support?", "Watch for extreme words like best and prefer."],
+why:"Every sentence supports one guarded claim: cities can support bees given space and plants. Prefer and best go further than the text ever does."},
+{skill:"Linear equations", passage:"",
+q:"A phone plan charges $20 plus $0.15 per GB over 10 GB. May's bill was $27.50. How many GB did she use?",
+choices:["40","50","60","65"], answer:2, trap:1, traplabel:"half-finished math",
+hints:["First subtract the $20 base. What is left for data?", "That leftover covers GBs past 10. Solve, then add the 10 back."],
+why:"$7.50 over base at $0.15 per GB means 50 extra GB, plus the first 10 equals 60. Picking 50 means stopping one step early, the classic trap."},
+{skill:"Percent", passage:"",
+q:"A store marks up shoes 40% over cost, then sells them at 25% off the marked price. Final price is $84. What was the cost?",
+choices:["60","70","80","90"], answer:2, trap:0, traplabel:"one-step math",
+hints:["Two changes happen in order. Write each as a multiplier.", "Up 40% means times 1.4. Off 25% means times 0.75."],
+why:"1.4 times 0.75 equals 1.05, so cost is 84 divided by 1.05, which is 80. Picking 60 only applies the first change and ignores the second."},
+{skill:"Transitions", passage:"",
+q:"The new library opened downtown last spring. ___ attendance tripled within six months. Which transition fits?",
+choices:["However","As a result","For example","In contrast"], answer:1, trap:0, traplabel:"contrast reflex",
+hints:["Does the second sentence oppose or follow from the first?", "Tripled attendance is a result, not a contrast."],
+why:"The second sentence gives the result of the opening, so As a result fits. However signals opposition that is not there."}
+];
+var DICON = {
+"Words in context":'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M12 6c-2-1.5-5-2-8-1v14c3-1 6-.5 8 1 2-1.5 5-2 8-1V5c-3-1-6-.5-8 1z"/><path d="M12 6v14"/></svg>',
+"Main idea":'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
+"Linear equations":'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M3 20h18"/><path d="M4 16l4-5 3 3 5-7 4 4"/></svg>',
+"Percent":'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><circle cx="8" cy="8" r="2.5"/><circle cx="16" cy="16" r="2.5"/><path d="M18 6L6 18"/></svg>',
+"Transitions":'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M4 8h13l-3-3"/><path d="M20 16H7l3 3"/></svg>'};
+var ds = {i:0, picked:-1, hint:0, right:0, misses:[], hist:[], feed:[], t0:0};
+function dEsc(s){ return s; }
+function dFeedHTML(){
+  if(!ds.feed.length) return "";
+  return "<div class='note' style='margin-top:10px;'><b>Live engine feed (sample readout).</b><br>" + ds.feed.join("<br>") + "</div>";
+}
+function dRender(){
+  var box = document.getElementById("quiz");
+  if(ds.i >= DQ.length){ dResults(box); return; }
+  if(!ds.t0){ ds.t0 = Date.now(); }
+  var q = DQ[ds.i], h = "";
+  h += "<div style='display:flex;gap:4px;margin-bottom:10px;'>";
+  for(var sgi=0; sgi<DQ.length; sgi++){
+    var col = "#e5e5e5";
+    if(sgi < ds.hist.length){ col = ds.hist[sgi] ? "#1a7f37" : "#b3261e"; }
+    else if(sgi === ds.i){ col = "#111"; }
+    h += "<div style='flex:1;height:6px;border-radius:3px;background:" + col + ";'></div>";
+  }
+  h += "</div>";
+  h += "<div class='card'><p><span class='tag'>Q " + (ds.i+1) + " of " + DQ.length + "</span><span class='tag'>" + (DICON[q.skill]||"") + q.skill + "</span></p>";
+  if(q.passage){ h += "<div class='note' style='margin-bottom:10px;'>" + q.passage + "</div>"; }
+  h += "<p><b>" + q.q + "</b></p><div id='dchoices'>";
+  for(var c=0;c<q.choices.length;c++){
+    var sel = (ds.picked===c) ? "border-color:#111;background:#f7f7f7;" : "";
+    h += "<button data-c='" + c + "' style='display:block;width:100%;text-align:left;margin:6px 0;padding:10px 12px;border:1px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;font-size:14px;" + sel + "'>" + q.choices[c] + "</button>";
+  }
+  h += "</div><div id='dhints' style='margin-top:8px;font-size:14px;color:#333;'></div><div id='dfeed' style='margin-top:8px;'></div>";
+  h += "<p style='margin-top:10px;'><button id='dhintb' style='font-size:13px;border:1px solid #ddd;border-radius:20px;padding:7px 14px;background:#fff;cursor:pointer;'>Hint? (" + (2-ds.hint) + " left)</button> ";
+  h += "<button id='dcheck' style='font-size:13px;border:1px solid #111;border-radius:20px;padding:7px 14px;background:#111;color:#fff;cursor:pointer;'>Check answer</button></p></div>";
+  box.innerHTML = h + dFeedHTML();
+  var btns = box.querySelectorAll("#dchoices button");
+  btns.forEach(function(b){ b.addEventListener("click", function(){ ds.picked = parseInt(b.getAttribute("data-c"),10); dRender(); }); });
+  box.querySelector("#dhintb").addEventListener("click", function(){
+    if(ds.hint < 2){ ds.hint++; box.querySelector("#dhints").innerHTML = "<b>Hint " + ds.hint + ":</b> " + q.hints[ds.hint-1]; }
+  });
+  box.querySelector("#dcheck").addEventListener("click", function(){
+    if(ds.picked < 0){ box.querySelector("#dfeed").innerHTML = "<b>Pick an answer first.</b>"; return; }
+    var ok = (ds.picked === q.answer);
+    if(ok){ ds.right++; } else { ds.misses.push(q); }
+    ds.hist.push(ok);
+    if(ok && ds.hint===0){ ds.feed.push("Q" + (ds.i+1) + " " + q.skill + ": clean solve. Difficulty climbs next session."); }
+    else if(ok){ ds.feed.push("Q" + (ds.i+1) + " " + q.skill + ": solved with " + ds.hint + " hint(s). Marked shaky. Review in 3 days."); }
+    else { ds.feed.push("Q" + (ds.i+1) + " " + q.skill + ": miss logged (" + q.traplabel + "). Twin drill queued day 1, 3, 7, 14."); }
+    var f = "";
+    btns.forEach(function(b){
+      var c = parseInt(b.getAttribute("data-c"),10);
+      if(c === q.answer){ b.style.background = "#e6f4ea"; b.style.borderColor = "#1a7f37"; }
+      if(c === ds.picked && !ok){ b.style.background = "#fce8e6"; b.style.borderColor = "#b3261e"; }
+      b.style.cursor = "default";
+    });
+    if(ok){ f += "<div class='note'><b>Right.</b> " + q.why + "</div>"; }
+    else {
+      f += "<div class='card' style='border-color:#b3261e;'><b>Not quite. Trap spotted: " + q.traplabel + ".</b><br>" + q.why + "</div>";
+    }
+    f += "<p style='margin-top:10px;'><button id='dnext' style='font-size:13px;border:1px solid #111;border-radius:20px;padding:7px 14px;background:#111;color:#fff;cursor:pointer;'>" + (ds.i+1 >= DQ.length ? "See my results" : "Next question") + "</button></p>";
+    box.querySelector("#dfeed").innerHTML = f;
+    box.querySelector("#dnext").addEventListener("click", function(){ ds.i++; ds.picked = -1; ds.hint = 0; dRender(); window.scrollTo({top:0, behavior:"smooth"}); });
+  });
+}
+function dResults(box){
+  var band = ds.right===5 ? "1450-1550 track" : ds.right===4 ? "1300-1450 track" : ds.right===3 ? "1150-1300 track" : "1000-1150 track";
+  var secs = ds.t0 ? Math.round((Date.now()-ds.t0)/1000) : 0;
+  var tstr = Math.floor(secs/60) + " min " + (secs%60) + " sec";
+  var medal = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b7791f" stroke-width="2" style="vertical-align:-4px;margin-right:6px;"><circle cx="12" cy="9" r="5"/><path d="M9 13.5L7 21l5-2.5L17 21l-2-7.5"/></svg>';
+  var h = "<div class='card' style='border-color:#111;'><h3>" + medal + "Your sample band: " + band + "</h3><p>" + ds.right + " of 5 right in " + tstr + ". A 5-item sample cannot place you precisely. The full 40-item check can.</p></div>";
+  h += "<div class='card'><h3>Skill map</h3>";
+  DQ.forEach(function(q, i){
+    var miss = ds.misses.indexOf(q) !== -1;
+    h += "<div style='display:flex;align-items:center;gap:8px;font-size:14px;margin:4px 0;'><span style='width:10px;height:10px;border-radius:50%;background:" + (miss ? "#b3261e" : "#1a7f37") + ";display:inline-block;'></span>" + q.skill + "</div>";
+  });
+  h += "</div>";
+  var trapLine = "No repeat trap yet. The full check needs 40 items to name your pattern with proof.";
+  if(ds.misses.length > 0){
+    var labels = ds.misses.map(function(m){ return m.traplabel; });
+    trapLine = "Traps hit today: " + labels.join(", ") + ". The engine would now lock drills on " + labels[0] + ".";
+  }
+  h += "<div class='card'><h3>Trap finder</h3><p>" + trapLine + "</p></div>";
+  h += "<div class='note'><b>Sample parent note.</b> Today: " + ds.right + "/5, " + (5-ds.right) + " misses reviewed with hints. Focus next: " + (ds.misses.length ? ds.misses[0].skill : " upkeep across all skills") + ". Study time: about 12 minutes. Next session assigned for tomorrow.</div>";
+  h += "<div class='card'><h3>Sample tutor note</h3><p>Reviewed the mistake log before our call. Priority for the next 4 weeks: " + (ds.misses.length ? ds.misses[0].skill + " (" + ds.misses[0].traplabel + ")" : "push difficulty one rung on all skills") + ". Full write-up after our 30-minute review.</p></div>";
+  h += dFeedHTML();
+  h += "<p><button id='dplans' style='font-size:14px;border:1px solid #111;border-radius:20px;padding:9px 18px;background:#111;color:#fff;cursor:pointer;'>See plans that fit this band</button> ";
+  h += "<button id='dretry' style='font-size:13px;border:1px solid #ddd;border-radius:20px;padding:7px 14px;background:#fff;cursor:pointer;'>Retake the demo</button></p>";
+  box.innerHTML = h;
+  box.querySelector("#dplans").addEventListener("click", function(){ show("levels"); });
+  box.querySelector("#dretry").addEventListener("click", function(){ ds = {i:0, picked:-1, hint:0, right:0, misses:[], hist:[], feed:[], t0:0}; dRender(); window.scrollTo({top:0, behavior:"smooth"}); });
+}
+dRender();
+</script>
+<!-- TAB: LEVELS -->
+<div class="panel" id="panel-levels">
+<div class="layout">
+<aside class="toc"><b>On this tab</b><a href="#l1">Level 1 self-serve</a><a href="#l2">Level 2 with check-in</a><a href="#l3">Level 3 high-touch</a><a href="#l-miss">Missing 7 items</a></aside>
+<div>
+<h2>Levels - agreed, with small fixes</h2>
+<p>Your 3-level idea is right. Low price self-help, mid price with trust, high price with human contact.</p>
+<div class="card" id="l1">
+<h3>Level 1 - Self-serve AI only</h3>
+<p><span class="tag">No human</span><span class="tag">Daily use</span></p>
+<p class="price">Suggested: $59 per month, $470 per year. 7-day $1 trial.</p>
+<ul>
+<li>5-minute start check that sets base score</li>
+<li>Daily 20-minute plan that ends on test date</li>
+<li>Trap finder: shows which wrong answer type you keep picking</li>
+<li>Ask for help any time, step-by-step hints</li>
+<li>Weekly full test that looks like the real screen</li>
+<li>Score predictor and hours studied</li>
+</ul>
+</div>
+<div class="card" id="l2">
+<h3>Level 2 - AI + human check-in</h3>
+<p><span class="tag">1 review per month</span><span class="tag">Video 30-45 min</span></p>
+<p class="price">Suggested: $199 per month, or $499 per 3 months.</p>
+<ul>
+<li>Everything in Level 1</li>
+<li>Human reviews mistake log before the call</li>
+<li>One live review per month plus written notes</li>
+<li>Human sets focus for next 4 weeks</li>
+<li>Pause any month, keep AI access</li>
+<li>College version adds parent view: minutes, trend, next 3 tasks</li>
+</ul>
+</div>
+<div class="card" id="l3">
+<h3>Level 3 - High-touch, 2-3 times per week</h3>
+<p><span class="tag">Live small group</span><span class="tag">Cap 6-8</span></p>
+<p class="price">Suggested: $649 per month for 2 live groups per week, $849 for 3 per week.</p>
+<ul>
+<li>Everything in Level 1 and 2</li>
+<li>Live coaching 2-3 times per week, same teacher</li>
+<li>Priority message help, same-day answer</li>
+<li>Test-day plan and review of all full tests</li>
+</ul>
+</div>
+<h2 id="l-miss">Missing - add these 7</h2>
+<ul>
+<li><b>Start check and promise rules:</b> who gets a score lift promise and what work is required.</li>
+<li><b>Parent view:</b> parents pay $1,500-6,000 today. Show work and trend or they cancel.</li>
+<li><b>Official materials:</b> use official Bluebook practice tests under College Board terms. State what is ours vs theirs. Do not scrape.</li>
+<li><b>Tutor bar, honest version:</b> top 1% score, trial lesson, repeat booking rate. Real names and real voices, pay above local market. Proof-first profiles beat fake polish.</li>
+<li><b>Pause and switch:</b> pause, move test date, change levels in one click.</li>
+<li><b>Honesty rules:</b> guide, do not do homework or write essays. Log reviews.</li>
+<li><b>End plan:</b> score review, 30-day free retake plan, referral bonus.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- TAB: COMPETITORS -->
+<div class="panel" id="panel-rivals">
+<div class="layout">
+<aside class="toc"><b>On this tab</b><a href="#c-all">Master compare</a><a href="#c-a">College test</a><a href="#c-b">Law test</a><a href="#c-c">What it means</a><a href="#c-d">Law or college</a><a href="#c-e">Price play</a></aside>
+<div>
+<h2>Competitors</h2>
+<p>Prices checked Sept 2026 from provider pages and 2026 reviews. Prices move with sales. Full grades in Research tab.</p>
+<h3 id="c-all">Master compare - click any header to sort</h3>
+<div class="comparebar">
+<div class="seg" id="segTest">
+<button class="on" data-f="all">All</button>
+<button data-f="college">College</button>
+<button data-f="law">Law</button>
+</div>
+<input id="mq" type="search" placeholder="Filter by name...">
+</div>
+<p class="legend">Entry price: <span class="pf pf-low">under $100</span> <span class="pf pf-mid">$100-500</span> <span class="pf pf-high">over $500</span> &nbsp; Options: <span class="pl pl-1">1</span> <span class="pl pl-2">2-3</span> <span class="pl pl-4">4+</span> &nbsp; <span class="gv g-yes">has score promise</span></p>
+<div class="tablewrap"><table id="masterTable">
+<thead><tr>
+<th data-k="name">Provider <span class="arr"></span></th>
+<th data-k="test">Test <span class="arr"></span></th>
+<th data-k="type">Type <span class="arr"></span></th>
+<th data-k="plans">Plans <span class="arr"></span></th>
+<th data-k="from">From $ <span class="arr"></span></th>
+<th data-k="to">Top $ <span class="arr"></span></th>
+<th data-k="tests">Tests <span class="arr"></span></th>
+<th data-k="live">Live hrs <span class="arr"></span></th>
+<th data-k="guar">Promise <span class="arr"></span></th>
+</tr></thead>
+<tbody>
+<tr data-name="official practice khan" data-t="college" data-type="free" data-plans="1" data-from="0" data-to="0" data-tests="6" data-live="0" data-guar="0"><td>Official practice + Khan</td><td>College</td><td><span class="tt">Free</span></td><td><span class="pl pl-1">1</span></td><td><span class="pf pf-low">Free</span></td><td><span class="pf pf-low">Free</span></td><td>6+</td><td>-</td><td><span class="gv g-no">None</span></td></tr>
+<tr data-name="khanmigo ai" data-t="both" data-type="ai" data-plans="2" data-from="4" data-to="44" data-tests="0" data-live="0" data-guar="0"><td>Khanmigo AI</td><td>Both</td><td><span class="tt">AI</span></td><td><span class="pl pl-2">2</span></td><td><span class="pf pf-low">$4/mo</span></td><td><span class="pf pf-low">$44/yr</span></td><td>-</td><td>-</td><td><span class="gv g-no">None</span></td></tr>
+<tr data-name="magoosh" data-t="college" data-type="self" data-plans="2" data-from="129" data-to="399" data-tests="3" data-live="16" data-guar="1"><td>Magoosh</td><td>College</td><td><span class="tt">Self</span></td><td><span class="pl pl-2">2</span></td><td><span class="pf pf-mid">$129</span></td><td><span class="pf pf-mid">$399 live</span></td><td>3</td><td>16</td><td><span class="gv g-yes">100-pt</span></td></tr>
+<tr data-name="kaplan sat" data-t="college" data-type="mixed" data-plans="3" data-from="199" data-to="2000" data-tests="4" data-live="18" data-guar="1"><td>Kaplan SAT</td><td>College</td><td><span class="tt">Mixed</span></td><td><span class="pl pl-2">3</span></td><td><span class="pf pf-mid">$199</span></td><td><span class="pf pf-high">$1,999+</span></td><td>4</td><td>18</td><td><span class="gv g-yes">Higher score</span></td></tr>
+<tr data-name="princeton review sat" data-t="college" data-type="mixed" data-plans="4" data-from="299" data-to="6560" data-tests="9" data-live="36" data-guar="1"><td>Princeton SAT</td><td>College</td><td><span class="tt">Mixed</span></td><td><span class="pl pl-4">4</span></td><td><span class="pf pf-mid">$299</span></td><td><span class="pf pf-high">$6,560</span></td><td>9</td><td>36+</td><td><span class="gv g-yes">98th %</span></td></tr>
+<tr data-name="prepscholar" data-t="college" data-type="adaptive" data-plans="3" data-from="397" data-to="1000" data-tests="0" data-live="0" data-guar="1"><td>PrepScholar</td><td>College</td><td><span class="tt">Adaptive</span></td><td><span class="pl pl-2">3</span></td><td><span class="pf pf-mid">$397</span></td><td><span class="pf pf-mid">$995+ tut.</span></td><td>-</td><td>Varies</td><td><span class="gv g-yes">160-pt</span></td></tr>
+<tr data-name="prep expert" data-t="college" data-type="ai-live" data-plans="3" data-from="199" data-to="800" data-tests="5" data-live="0" data-guar="1"><td>Prep Expert</td><td>College</td><td><span class="tt">AI+live</span></td><td><span class="pl pl-2">3</span></td><td><span class="pf pf-mid">$199/mo</span></td><td><span class="pf pf-mid">800+ w/ tutor</span></td><td>5</td><td>Q+A varies</td><td><span class="gv g-yes">200-pt</span></td></tr>
+<tr data-name="revolution prep" data-t="college" data-type="tutor" data-plans="3" data-from="499" data-to="1579" data-tests="5" data-live="12" data-guar="1"><td>Revolution Prep</td><td>College</td><td><span class="tt">Tutor</span></td><td><span class="pl pl-2">3</span></td><td><span class="pf pf-mid">$499 grp</span></td><td><span class="pf pf-high">$1,579 1-on-1</span></td><td>5</td><td>12</td><td><span class="gv g-yes">Money-back</span></td></tr>
+<tr data-name="uworld" data-t="college" data-type="bank" data-plans="1" data-from="249" data-to="249" data-tests="0" data-live="0" data-guar="0"><td>UWorld</td><td>College</td><td><span class="tt">Bank</span></td><td><span class="pl pl-1">1</span></td><td><span class="pf pf-mid">$249</span></td><td><span class="pf pf-low">$249</span></td><td>Q bank</td><td>-</td><td><span class="gv g-no">None</span></td></tr>
+<tr data-name="varsity wyzant" data-t="both" data-type="market" data-plans="1" data-from="30" data-to="170" data-tests="0" data-live="1" data-guar="0"><td>Varsity / Wyzant</td><td>Both</td><td><span class="tt">Market/hr</span></td><td><span class="pl pl-1">1</span></td><td><span class="pf pf-low">$30/hr</span></td><td><span class="pf pf-low">$170/hr</span></td><td>-</td><td>1-on-1</td><td><span class="gv g-no">None</span></td></tr>
+<tr data-name="7sage" data-t="law" data-type="mixed" data-plans="4" data-from="69" data-to="2299" data-tests="80" data-live="0" data-guar="0"><td>7Sage</td><td>Law</td><td><span class="tt">Mixed</span></td><td><span class="pl pl-4">4</span></td><td><span class="pf pf-low">$69/mo</span></td><td><span class="pf pf-high">$2,299 class</span></td><td>80+</td><td>Daily</td><td><span class="gv g-no">None listed</span></td></tr>
+<tr data-name="lsat demon" data-t="law" data-type="mixed" data-plans="3" data-from="99" data-to="1199" data-tests="81" data-live="0" data-guar="0"><td>LSAT Demon</td><td>Law</td><td><span class="tt">Mixed</span></td><td><span class="pl pl-2">3</span></td><td><span class="pf pf-low">$99/mo</span></td><td><span class="pf pf-mid">$499/mo*</span></td><td>81</td><td>Daily</td><td><span class="gv g-no">None listed</span></td></tr>
+<tr data-name="blueprint" data-t="law" data-type="mixed" data-plans="4" data-from="99" data-to="4799" data-tests="59" data-live="30" data-guar="1"><td>Blueprint</td><td>Law</td><td><span class="tt">Mixed</span></td><td><span class="pl pl-4">4</span></td><td><span class="pf pf-low">$99/mo</span></td><td><span class="pf pf-high">$4,799 tut.</span></td><td>59</td><td>30</td><td><span class="gv g-yes">Score+</span></td></tr>
+<tr data-name="kaplan law" data-t="law" data-type="mixed" data-plans="4" data-from="765" data-to="2000" data-tests="0" data-live="60" data-guar="1"><td>Kaplan law</td><td>Law</td><td><span class="tt">Mixed</span></td><td><span class="pl pl-4">4</span></td><td><span class="pf pf-high">$765</span></td><td><span class="pf pf-high">$1,999+ tut.</span></td><td>Quizzes</td><td>60</td><td><span class="gv g-yes">170+</span></td></tr>
+<tr data-name="powerscore" data-t="law" data-type="mixed" data-plans="3" data-from="35" data-to="995" data-tests="0" data-live="0" data-guar="0"><td>PowerScore</td><td>Law</td><td><span class="tt">Mixed</span></td><td><span class="pl pl-2">3</span></td><td><span class="pf pf-low">$35 analyt.</span></td><td><span class="pf pf-mid">$995 live</span></td><td>-</td><td>Course</td><td><span class="gv g-no">None listed</span></td></tr>
+<tr data-name="testmasters" data-t="law" data-type="course" data-plans="2" data-from="1875" data-to="1875" data-tests="18" data-live="45" data-guar="0"><td>TestMasters</td><td>Law</td><td><span class="tt">Course</span></td><td><span class="pl pl-2">2</span></td><td><span class="pf pf-high">$1,875</span></td><td><span class="pf pf-high">$1,875+</span></td><td>18</td><td>45</td><td><span class="gv g-no">None listed</span></td></tr>
+<tr data-name="princeton law" data-t="law" data-type="mixed" data-plans="2" data-from="1500" data-to="3500" data-tests="0" data-live="0" data-guar="0"><td>Princeton law</td><td>Law</td><td><span class="tt">Mixed</span></td><td><span class="pl pl-2">2</span></td><td><span class="pf pf-high">$1,500</span></td><td><span class="pf pf-high">$3,500</span></td><td>-</td><td>-</td><td><span class="gv g-no">None listed</span></td></tr>
+<tr data-name="market tutors law" data-t="law" data-type="market" data-plans="1" data-from="80" data-to="259" data-tests="0" data-live="1" data-guar="0"><td>Market tutors</td><td>Law</td><td><span class="tt">Market/hr</span></td><td><span class="pl pl-1">1</span></td><td><span class="pf pf-low">$80/hr</span></td><td><span class="pf pf-low">$259/hr</span></td><td>-</td><td>1-on-1</td><td><span class="gv g-no">None</span></td></tr>
+<tr data-name="lawhub" data-t="law" data-type="official" data-plans="1" data-from="124" data-to="124" data-tests="50" data-live="0" data-guar="0"><td>LawHub hub</td><td>Law</td><td><span class="tt">Official</span></td><td><span class="pl pl-1">1</span></td><td><span class="pf pf-mid">$124/yr</span></td><td><span class="pf pf-low">$124/yr</span></td><td>50+</td><td>-</td><td><span class="gv g-no">n/a</span></td></tr>
+</tbody>
+</table></div>
+<p class="fine">From = cheapest entry. Top = priciest pack. Rows marked /hr bill per hour, not per month, so do not rank them against monthly prices. * Demon Pro $499/mo plus up to $700/mo master add-on. Click a header again to flip order.</p>
+<h3 id="c-a">A. College entry test</h3>
+<div class="tablewrap"><table>
+<tr><th>Provider</th><th>What you get</th><th>Price 2026</th></tr>
+<tr><td>Official practice + Khan</td><td>Free lessons + free full adaptive tests</td><td>Free</td></tr>
+<tr><td>Khanmigo AI</td><td>Always-on help inside Khan, guides without giving answers</td><td>$4 per month, $44 per year</td></tr>
+<tr><td>Magoosh</td><td>1,750+ questions, up to 3 tests, email help. Live add-on 16 hrs</td><td>$129 for 12 mo. $399 with live</td></tr>
+<tr><td>Kaplan</td><td>On-demand + 4 tests + 500+ questions. Live 18 hrs. Tutor 10-40 hrs</td><td>$199 on-demand. $799-1,099 live. $1,999+ tutoring</td></tr>
+<tr><td>Princeton Review</td><td>2,000+ questions, 9 tests, live or in-person</td><td>$299 self-paced. $649 class. $1,849 for 1400+. Tutor ~$376 per hr</td></tr>
+<tr><td>PrepScholar</td><td>Adaptive plan + AI helper + live and tutoring packs</td><td>$397 self-paced. $895 live. $995+ tutoring</td></tr>
+<tr><td>Prep Expert AI + live</td><td>AI tutor + 1,000+ questions + 5 tests + planner + live Q and A. Closest AI rival</td><td>$199 per month AI. Tutor $89-99 per hr</td></tr>
+<tr><td>Revolution Prep</td><td>Full-time tutors, 1-on-1 and groups to 10, 5 proctored tests</td><td>12 hrs 1-on-1 $1,579. Group 12 hrs $499</td></tr>
+<tr><td>UWorld</td><td>Question bank, timer and sync</td><td>$249 on-demand</td></tr>
+<tr><td>Varsity / Wyzant</td><td>Hourly 1-on-1, quality varies</td><td>$30-170 per hour</td></tr>
+</table></div>
+<h3 id="c-b">B. Law entry test</h3>
+<div class="tablewrap"><table>
+<tr><th>Provider</th><th>What you get</th><th>Price 2026</th></tr>
+<tr><td>7Sage Core</td><td>900+ lessons, drills, all released tests, AI helper</td><td>$69 per month + hub $124 per year</td></tr>
+<tr><td>7Sage Live</td><td>Core + daily live video</td><td>$129 per month, first month $79 sale</td></tr>
+<tr><td>7Sage Coach</td><td>Live + dedicated coach</td><td>$299 per month</td></tr>
+<tr><td>7Sage classes</td><td>Blocks 4-12 weeks, 8-30 hrs live</td><td>$899-2,299</td></tr>
+<tr><td>LSAT Demon</td><td>81 tests, 200+ lessons, Ask button, daily live</td><td>$99 Essential. $179 Live. $499 Pro with 2 hrs tutoring</td></tr>
+<tr><td>Blueprint</td><td>61 modules, 7,000+ questions, live reviews 6x per week</td><td>$99 Starter. $149 Pro. Live $899 sale. Tutor $2,429-4,799</td></tr>
+<tr><td>Kaplan law</td><td>180+ quizzes, 60 hrs video, ebooks</td><td>$765-899 on-demand. $1,105-1,299 live. $1,700+ tutoring</td></tr>
+<tr><td>PowerScore</td><td>Live online + on-demand + analytics</td><td>$995 live. $99 per month on-demand. $35 analytics</td></tr>
+<tr><td>TestMasters</td><td>80 hrs video, 18 full tests, live / self / class</td><td>~$1,875 course</td></tr>
+<tr><td>Princeton law</td><td>Group + books + tests + tutoring</td><td>$1,500-3,500 packs</td></tr>
+<tr><td>Market tutors</td><td>1-on-1 top scorers</td><td>$80-259 per hour</td></tr>
+<tr><td>LawHub hub</td><td>Required for real questions. Paid to test owner</td><td>$124 per year</td></tr>
+</table></div>
+<h3 id="c-c">C. What it means</h3>
+<ul>
+<li>Level 1 at $59 sits between $4 generic AI and $129-397 packs. Fair if test-specific with predictor.</li>
+<li>Level 2 at $199 undercuts one $200-300 human hour while keeping trust.</li>
+<li>Level 3 at $649-849 undercuts $2,000-6,000 packs.</li>
+</ul>
+<h3 id="c-d">D. Verdict: college test first, for value and volume</h3>
+<p><b>College first.</b> Over 2M takers per year and parents already pay $1,500-6,000 per prep cycle, so value pricing lands: $59 self-serve, $199 with a monthly human check, $649-849 small groups. Start with reading and writing, add math next. Remote tutors hired on score and proof keep cost low and margin high, sold honestly on results with real names and voices.</p>
+<p><b>Law later.</b> Same engine ports cleanly to a pure-text test with adult buyers and ~$230 per hour tutor rates. It becomes tier-two expansion once the college loop prints.</p>
+<h3 id="c-e">E. Optimal price play if we are better in every way</h3>
+<ul>
+<li><b>Beat free, do not join it.</b> Free practice and $4 generic AI exist, so Level 1 wins on plan plus trap finder plus score predictor, not on question count. $59 sits under the $129-397 rival band while feeling premium next to $4 generic.</li>
+<li><b>Mid tier is the trust tier.</b> Rivals sell single human hours at $200-300. At $199 per month with daily AI plus one reviewed human call, the buyer gets a month of coaching for less than one hour elsewhere. Offer $499 per 3 months to lock in full cycles.</li>
+<li><b>High tier caps human cost.</b> Rival 1-on-1 packs run $2,000-6,000. At $649-849 per month for small groups of 6-8 with the same teacher, results stay close while cost per buyer drops hard. Keep groups full or pause intake.</li>
+<li><b>Copy what buyers already expect.</b> Monthly cancel-anytime, yearly at ~20% off, 7-day $1 trial or free 5-minute score check to start, promise only with clear work rules so refunds stay capped.</li>
+<li><b>Charge for value, show the math.</b> Publish the parent view: hours worked, predicted lift, cost per point vs a $250 human hour. Remote staff paid above local market keeps margin near 70-80% on human tiers without hiding who teaches.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- TAB: MONEY -->
+<div class="panel" id="panel-money">
+<div class="layout">
+<aside class="toc"><b>On this tab</b><a href="#m-math">Simple math</a><a href="#m-cost">Watch costs</a></aside>
+<div>
+<h2 id="m-math">Simple money math</h2>
+<div class="note">Example: 600 at $59 = $35,400. 150 at $199 = $29,850. 48 at $699 avg = $33,552. Total ~$99k per month before refunds, tutor pay, and AI cost. Remote staff at above-local rates keeps human tiers near 70-80% margin.</div>
+<h2 id="m-cost">Watch these costs</h2>
+<ul>
+<li>Human time is the limit. Keep reviews to 30 min with pre-read notes. Keep groups full at 6-8.</li>
+<li>AI cost per heavy user. Cap full-test grading and long chats in Level 1.</li>
+<li>Refunds. Tight promise rules or refunds eat margin.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- TAB: RESEARCH -->
+<div class="panel" id="panel-research">
+<div class="layout">
+<aside class="toc"><b>On this tab</b><a href="#r-sure">Are prices sure?</a><a href="#r-list">Checklist</a><a href="#r-swarm">Swarm briefs</a><a href="#r-guess">Open guesses</a></aside>
+<div>
+<h2 id="r-sure">Are you sure about pricing?</h2>
+<p>Partly. High means seen on provider page this month. Medium means sale price moves. Low means wide range or our guess. Re-check live pages before you quote.</p>
+<ul class="check">
+<li><input type="checkbox"> High <span class="pill high">solid</span> - Khanmigo $4, LawHub $124, 7Sage $69 / $129 / $299, LSAT Demon $99 / $179 / $499, Magoosh $129 / $399, PowerScore $995 / $99, Prep Expert AI $199</li>
+<li><input type="checkbox"> Medium <span class="pill med">moves</span> - Kaplan $199 / $799-1,099, Blueprint $99 / $149 / $899 sale vs $1,299 list, Princeton $299 / $649 / $1,849, TestMasters ~$1,875, Revolution 12 hrs $1,579 / $499</li>
+<li><input type="checkbox"> Low <span class="pill low">verify</span> - Marketplaces $30-259, our $39 / $59 / $149 / $549-749, refund and tutor pay math</li>
+</ul>
+<h2 id="r-list">Full research checklist - everything missing</h2>
+<ul class="check">
+<li><input type="checkbox"> <b>1. Live price re-check:</b> open each provider page, save list vs sale, what is included, months of access. Done when each row has date + link + screenshot.</li>
+<li><input type="checkbox"> <b>2. Missing rivals:</b> LSAT Lab, Velocity, Harvard Ready style tutors, UWorld bundles, school-day deals. Done when no top-10 list has a name we lack.</li>
+<li><input type="checkbox"> <b>3. Buyer willingness:</b> 15 law + 15 college interviews. Would you pay $59 / $149 / $599 and why not. Done when we know top 3 no-buy reasons per level.</li>
+<li><input type="checkbox"> <b>4. License rules:</b> LawHub licensee terms, can we show questions in AI chat, College Board Bluebook reuse rules. Done when we have written yes/no per use.</li>
+<li><input type="checkbox"> <b>5. Product scope:</b> trap list for law logic, predictor accuracy target, Desmos need for math, test screen match. Done when build list fits 6-8 weeks.</li>
+<li><input type="checkbox"> <b>6. Cost to run:</b> tutor pay per 30-min review, AI cost per 100 chats + per full test, refund rate guard. Done when margin per level is known.</li>
+<li><input type="checkbox"> <b>7. Calendar:</b> all 2026-2027 test dates, sign-up cutoffs, retake windows, school-day peaks. Done when launch date picks a low-competition window.</li>
+<li><input type="checkbox"> <b>8. Sales path:</b> 5-min quiz hook, counselor pilot terms, tutor affiliate cut. Done when cost per trial is known for one channel.</li>
+<li><input type="checkbox"> <b>9. Promise and refunds:</b> rival promise fine print, hours and tests required, our cutoff. Done when refund risk is capped in writing.</li>
+<li><input type="checkbox"> <b>10. Trust and safety:</b> no-homework rule, score bar for tutors, review logs. Done when hiring rubric + sample review exists.</li>
+</ul>
+<h2 id="r-swarm">Swarm briefs - what each worker owns</h2>
+<ul>
+<li><b>Price worker:</b> prove each Medium row with live page quote + access length + sale end date.</li>
+<li><b>Rival worker:</b> add the 5 missing names with features, tests count, live hours, guarantee.</li>
+<li><b>Buyer worker:</b> pull reviews and posts for why buyers quit Khan, Magoosh, 7Sage, Demon.</li>
+<li><b>Rules worker:</b> quote license lines for LawHub and Bluebook reuse, plus fee waiver paths.</li>
+<li><b>Cost worker:</b> tutor market pay, AI heavy-user cost model, refund math per level.</li>
+</ul>
+<h2 id="r-guess">Open guesses - assumptions graded, with owners</h2>
+<p>Everything below is unproven until the named check runs. Owner means who runs it, not who believes it.</p>
+<ul class="check">
+<li><input type="checkbox"> <b>Prices ($59 / $199 / $649-849):</b> invented from rival lists, zero buyer interviews. Owner: founder. Close with 10 parent interviews on $199/mo.</li>
+<li><input type="checkbox"> <b>$99k/mo math:</b> fiction, no conversion or churn behind it. Owner: founder. Close with trial-to-paid rate from a 100-user pilot.</li>
+<li><input type="checkbox"> <b>70-80% margin:</b> tutor pay, AI cost, refunds, fees never priced. Owner: ops. Close with a per-level cost sheet.</li>
+<li><input type="checkbox"> <b>$1 trial economics:</b> support load and abuse unknown. Owner: ops. Close with a 2-week capped trial.</li>
+<li><input type="checkbox"> <b>Promise caps refunds:</b> no dispute data. Owner: founder. Close by reading 3 rival guarantee fine prints plus one counsel review.</li>
+<li><input type="checkbox"> <b>Remote tutors teach US teens well:</b> fluency, timezone, churn unproven. Owner: hiring. Close with 10 paid trial lessons scored blind.</li>
+<li><input type="checkbox"> <b>Text-first earns parent trust:</b> plausible, untested. Owner: founder. Close with 10 parent walkthroughs of sample reviews.</li>
+<li><input type="checkbox"> <b>SEO pages will rank:</b> no keyword difficulty data, page one is owned. Owner: content. Close with a difficulty pull on 30 targets.</li>
+<li><input type="checkbox"> <b>Video quiz buys cheap trials:</b> cost per trial unknown. Owner: growth. Close with $200 test spend on one hook.</li>
+<li><input type="checkbox"> <b>Bluebook reuse plus trademarks plus minor privacy:</b> assumed fine, never read. Owner: counsel. Close with primary-source read before launch.</li>
+<li><input type="checkbox"> <b>Predictor and trap finder work:</b> no prototype, no error band. Owner: build. Close with grading on 3 real tests.</li>
+<li><input type="checkbox"> <b>Rivals will not copy fast:</b> they already ship AI helpers. Owner: founder. Accept as speed edge, not a moat.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- TAB: SEO -->
+<div class="panel" id="panel-seo">
+<div class="layout">
+<aside class="toc"><b>On this tab</b><a href="#s-how">How to read this</a><a href="#s-map">Full map</a><a href="#s-order">Build order</a></aside>
+<div>
+<h2 id="s-how">SEO map - every category, subcategory, and page count</h2>
+<p>One page per distinct search intent. Each rows shows the group, what sits inside it, and roughly how many pages it yields at launch. Total at launch: about 350-400 pages, growing past 600 as dates and guides repeat.</p>
+<h2 id="s-map">Full map</h2>
+<div class="tablewrap"><table>
+<tr><th>Category</th><th>Subcategories inside</th><th>Est pages</th></tr>
+<tr><td>Test basics</td><td>Format, reading section, math section, adaptive scoring, Bluebook app, Desmos calculator, test dates, registration, fees and waivers, accommodations, test day checklist, score sends, superscore, retake rules</td><td>40</td></tr>
+<tr><td>Reading skills</td><td>Vocab in context, purpose, dual texts, retrieval, main idea, claims, conclusions, transitions, synthesis, punctuation, grammar - each with guide plus drills plus quiz</td><td>35</td></tr>
+<tr><td>Math skills</td><td>Linear equations, systems, inequalities, functions, quadratics, exponents, ratios and percent, stats and probability, geometry, trig, word problems, Desmos tricks - each with guide plus drills plus quiz</td><td>38</td></tr>
+<tr><td>Score goals and plans</td><td>Plans by start score 900-1400 in 100s, 2/4/8/12-week plans, 1300/1400/1500 pushes, PSAT to SAT path, free diagnostic, score predictor explainer</td><td>18</td></tr>
+<tr><td>Colleges</td><td>Top 60 schools score ranges and policy, 25 state flagships, test-optional explained, merit aid score thresholds</td><td>100</td></tr>
+<tr><td>Compare pages</td><td>SAT vs ACT, us vs each of 10 rivals, tutor vs class vs self-study, our 3 levels vs rival packs</td><td>20</td></tr>
+<tr><td>Parent guides</td><td>True cost of prep, timelines for grades 9/10/11, how to help without nagging, motivation slumps, summer plan, junior spring plan, senior fall plan</td><td>12</td></tr>
+<tr><td>Locations</td><td>25 metro pages for online tutoring plus test-center tips, 5 regional parent guides</td><td>30</td></tr>
+<tr><td>Practice assets</td><td>6 full adaptive tests, 30 topic drills, 10 vocab lists, 3 formula sheets, error log template, study planner printout</td><td>51</td></tr>
+<tr><td>Seasonal and news</td><td>Per-date reminder and last-prep guides for 8 dates, score release explainers, policy change notes</td><td>15 per yr</td></tr>
+</table></div>
+<h2 id="s-order">Build order</h2>
+<ul>
+<li><b>First 60:</b> test basics plus score plans plus compare pages. These catch buyers closest to paying.</li>
+<li><b>Next 100:</b> reading and math skill guides with drills. These feed the app and rank for how-to searches.</li>
+<li><b>Then colleges:</b> 100 school pages from one template. Highest volume over time.</li>
+<li><b>Last:</b> locations and seasonal, refreshed each cycle.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- TAB: SSAT -->
+<div class="panel" id="panel-ssat">
+<div class="layout">
+<aside class="toc"><b>On this tab</b><a href="#s-why">Why SSAT</a><a href="#s-facts">Test facts</a><a href="#s-loop">Dynamic loop</a><a href="#s-full">Full process</a><a href="#s-rules">If-then rules</a><a href="#s-weeks">Week plans</a><a href="#s-edge">Two SSAT-only edges</a><a href="#s-pay">Money fit</a></aside>
+<div>
+<h2 id="s-why">Why SSAT: ignored by giants, loved by parents</h2>
+<p>Private-school parents pay fast and feel every point, since percentiles compare kids to the same grade. Big brands under-serve it: small market, three levels, analogies no other test uses. One engine covers all three levels, so build cost stays low while each family feels a custom plan.</p>
+<h2 id="s-facts">Test facts the schedule is built on</h2>
+<div class="tablewrap"><table>
+<tr><th>Fact</th><th>Middle (grades 5-7)</th><th>Upper (grades 8-11)</th></tr>
+<tr><td>Order, always fixed</td><td colspan="2">Writing, Math 1, Reading, Verbal, Math 2, Experimental, with breaks after Reading and Math 2</td></tr>
+<tr><td>Timing</td><td colspan="2">Writing 25 min, Math 25Q/30 min x2, Reading 40Q/40 min, Verbal 60Q/30 min (30 synonyms + 30 analogies), Experimental 16Q/15 min. About 3h 5m total</td></tr>
+<tr><td>Scoring</td><td colspan="2">Plus 1 right, minus 1/4 wrong, 0 blank. Random guessing nets zero. Guessing after killing even one choice nets points</td></tr>
+<tr><td>Scaled range</td><td>440-710 per part, 1320-2130 total</td><td>500-800 per part, 1500-2400 total</td></tr>
+<tr><td>What schools read</td><td colspan="2">Grade percentile vs same-grade first-time testers over 3 years, plus the writing sample, which officers actually read. No calculator on any level</td></tr>
+</table></div>
+<p class="fine">2026-27 standard dates: Oct 10, Nov 14, Dec 12, Jan 9, Jan 30, Mar 13. Fee about $127 domestic, late plus $59, rush plus $100. Limits per year: 6 paper standard, 2 Prometric computer, 1 at home, 1 Flex. Plan retakes around standard dates.</p>
+<h2 id="s-loop">The dynamic loop: same engine, every kid, every day</h2>
+<div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:0;border:1px solid #eee;border-radius:12px;overflow:hidden;margin:12px 0;">
+<div style="flex:1 1 120px;padding:10px;background:#111;color:#fff;font-size:13px;"><b>1. Check</b><br>30-min adaptive start</div>
+<div style="padding:10px 4px;background:#111;color:#fff;">â†’</div>
+<div style="flex:1 1 120px;padding:10px;background:#f7f7f7;font-size:13px;"><b>2. Plan</b><br>Back-plan from test date</div>
+<div style="padding:10px 4px;background:#f7f7f7;">â†’</div>
+<div style="flex:1 1 120px;padding:10px;font-size:13px;"><b>3. Train</b><br>Daily 60/25/15 mix</div>
+<div style="padding:10px 4px;">â†’</div>
+<div style="flex:1 1 120px;padding:10px;background:#f7f7f7;font-size:13px;"><b>4. Retain</b><br>Misses return d1/3/7/14</div>
+<div style="padding:10px 4px;background:#f7f7f7;">â†’</div>
+<div style="flex:1 1 120px;padding:10px;font-size:13px;"><b>5. Climb</b><br>5 rungs per skill</div>
+<div style="padding:10px 4px;">â†’</div>
+<div style="flex:1 1 120px;padding:10px;background:#e6f4ea;font-size:13px;"><b>6. Prove</b><br>Weekly real-order sim</div>
+</div>
+<ul>
+<li><b>1. Route by grade.</b> 30-minute adaptive start check picks Elementary, Middle, or Upper track and maps 4 scored skills plus a writing baseline.</li>
+<li><b>2. Back-plan from test date.</b> Engine splits days left into learn, drill, and simulate phases automatically.</li>
+<li><b>3. Daily mix by weakness weight.</b> Each 25-40 min session pulls about 60% weakest skill, 25% second weakest, 15% upkeep on mastered skills. Nobody grinds what they already know.</li>
+<li><b>4. Missed items resurface on schedule.</b> Every miss returns after 1, 3, 7, then 14 days until answered right twice under time. Forgotten items cannot hide.</li>
+<li><b>5. Difficulty climbs per skill.</b> Each skill has 5 rungs. Clear 85% over the last 20 timed items to climb. Slip twice and the engine drops one rung and reteaches.</li>
+<li><b>6. Rehearse the real order.</b> Weekly full runs use the fixed section order with real breaks, so endurance and pacing transfer on test day.</li>
+<li><b>7. Predict grade percentile, not just score.</b> Predictor converts to same-grade percentile, the number schools read, and flags retake when the gap sits inside the noise band of about 20 points.</li>
+</ul>
+<h2 id="s-full">Full process, start to finish</h2>
+<div style="border-left:3px solid #111;margin:12px 0 12px 6px;padding-left:0;">
+<div style="padding:8px 0 8px 18px;position:relative;font-size:14px;"><span style="position:absolute;left:-8px;top:12px;width:13px;height:13px;border-radius:50%;background:#111;display:inline-block;"></span><b>Signup.</b> Pick test date and level by grade. Free 5-minute score check hooks them first.</div>
+<div style="padding:8px 0 8px 18px;position:relative;font-size:14px;"><span style="position:absolute;left:-8px;top:12px;width:13px;height:13px;border-radius:50%;background:#111;display:inline-block;"></span><b>Day 1: diagnostic.</b> 30-minute adaptive check plus one writing sample. Skill map and baseline percentile same day.</div>
+<div style="padding:8px 0 8px 18px;position:relative;font-size:14px;"><span style="position:absolute;left:-8px;top:12px;width:13px;height:13px;border-radius:50%;background:#111;display:inline-block;"></span><b>Day 1 evening: plan lands.</b> Back-plan from test date, first 25-40 min session assigned, parent sees the calendar.</div>
+<div style="padding:8px 0 8px 18px;position:relative;font-size:14px;"><span style="position:absolute;left:-8px;top:12px;width:13px;height:13px;border-radius:50%;background:#fff;border:3px solid #111;display:inline-block;"></span><b>Daily loop.</b> Train, retain, climb. Weekly parent note with minutes, trend, next 3 tasks. Monthly tutor check on Level 2.</div>
+<div style="padding:8px 0 8px 18px;position:relative;font-size:14px;"><span style="position:absolute;left:-8px;top:12px;width:13px;height:13px;border-radius:50%;background:#fff;border:3px solid #111;display:inline-block;"></span><b>Final 2 weeks: simulate mode.</b> Full real-order runs, review only, sleep and test-day checklist.</div>
+<div style="padding:8px 0 8px 18px;position:relative;font-size:14px;"><span style="position:absolute;left:-8px;top:12px;width:13px;height:13px;border-radius:50%;background:#0b5fff;display:inline-block;"></span><b>Scores.</b> Review vs prediction, retake gap-plan auto-built if inside noise band, win story collected for marketing.</div>
+</div>
+<h2 id="s-rules">If-then rules that make it dynamic</h2>
+<div class="tablewrap"><table>
+<tr><th>Signal</th><th>Engine does this</th></tr>
+<tr><td>Accuracy under 60% on a skill</td><td>Halve new items, double reteach clips, shorten sessions to 20 min</td></tr>
+<tr><td>Accuracy over 90% twice in a row</td><td>Promote a rung, shift its time to the weakest skill</td></tr>
+<tr><td>Same trap 3 times (e.g. opposite analogy answer)</td><td>Lock a 10-item trap drill plus one tutor-reviewed note</td></tr>
+<tr><td> Pace slips (under 80% items reached)</td><td>Insert skip-and-return drills, since blanks beat blind guesses under the penalty</td></tr>
+<tr><td>2+ weeks to test date</td><td>Flip to simulate mode: 3 full runs plus review only</td></tr>
+<tr><td>Score inside noise band of target</td><td>Recommend retake on next standard date, auto-build the gap plan</td></tr>
+</table></div>
+<h2 id="s-weeks">Week plans that fit real families</h2>
+<ul>
+<li><b>12-week full:</b> weeks 1-4 learn, 5-9 drill, 10-12 simulate. 4-5 days a week, 30 min.</li>
+<li><b>6-week sprint:</b> learn and drill merged, one full run per week from week 2.</li>
+<li><b>2-week rescue:</b> guessing rules plus top-3 weak skills plus 3 full runs. Triage only, sold honestly as triage.</li>
+<li><b>Young kids (Elementary):</b> 20-minute cap, no penalty exists at this level so guessing rules flip to always-answer, picture-prompt writing games.</li>
+</ul>
+<h2 id="s-edge">Two SSAT-only edges rivals skip</h2>
+<ul>
+<li><b>Guessing trainer.</b> Only major test left with a wrong-answer penalty. Expected-value drills teach kill-one-then-guess until it is reflex. Worth real points rivals leave behind.</li>
+<li><b>Analogy engine.</b> 30 analogies per test, 12 relationship types, bridge-sentence method. No other admissions test drills this, so our bank becomes the moat. Plus writing-sample coaching with a real rubric, since officers read it.</li>
+</ul>
+<h2 id="s-pay">Money fit</h2>
+<p>Shorter windows than college prep, so price per cycle not per year: self-serve $49 per month, AI plus monthly human check $179, small groups $599. Same 3 levels, same remote tutors, same parent view. Test-date back-planning sells urgency free: every plan names the date.</p>
+</div>
+</div>
+</div>
+
+<footer>
+Built for sharing. Prices from provider sites and 2026 reviews. Law counts: 124,495 takers in 2024-2025, about half retake. College: over 2M in class of 2025. Check live pages before you publish quotes.
+</footer>
+
+</div>
+<script>
+var btns = document.querySelectorAll('.tabs button');
+var panels = { plan: document.getElementById('panel-plan'), demo: document.getElementById('panel-demo'), levels: document.getElementById('panel-levels'), rivals: document.getElementById('panel-rivals'), money: document.getElementById('panel-money'), research: document.getElementById('panel-research'), seo: document.getElementById('panel-seo'), ssat: document.getElementById('panel-ssat') };
+function show(name) {
+  btns.forEach(function(b){ b.classList.toggle('on', b.dataset.tab === name); });
+  Object.keys(panels).forEach(function(k){ panels[k].classList.toggle('show', k === name); });
+  try { location.hash = name; } catch(e) {}
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+btns.forEach(function(b){ b.addEventListener('click', function(){ show(b.dataset.tab); }); });
+var h = (location.hash || '').replace('#','');
+if (panels[h]) show(h);
+var mt = document.getElementById('masterTable');
+if (mt) {
+  var tb = mt.querySelector('tbody');
+  var rows = Array.prototype.slice.call(tb.querySelectorAll('tr'));
+  var cur = { k: '', d: 1 };
+  var numKeys = { plans: 1, from: 1, to: 1, tests: 1, live: 1, guar: 1 };
+  function paintArrows() {
+    mt.querySelectorAll('th .arr').forEach(function(s){ s.textContent = ''; });
+    if (!cur.k) return;
+    var th = mt.querySelector('th[data-k="' + cur.k + '"] .arr');
+    if (th) th.textContent = cur.d === 1 ? ' ^' : ' v';
+  }
+  mt.querySelectorAll('th[data-k]').forEach(function(th){
+    th.addEventListener('click', function(){
+      var k = th.getAttribute('data-k');
+      if (cur.k === k) { cur.d = -cur.d; } else { cur.k = k; cur.d = 1; }
+      rows.sort(function(a, b){
+        var x = a.getAttribute('data-' + k) || '', y = b.getAttribute('data-' + k) || '';
+        if (numKeys[k]) { x = parseFloat(x) || 0; y = parseFloat(y) || 0; return (x - y) * cur.d; }
+        return String(x).localeCompare(String(y)) * cur.d;
+      });
+      rows.forEach(function(r){ tb.appendChild(r); });
+      paintArrows();
+    });
+  });
+  var segBtns = document.querySelectorAll('#segTest button');
+  var mq = document.getElementById('mq');
+  var f = 'all';
+  function applyFilter() {
+    var q = (mq && mq.value ? mq.value : '').toLowerCase();
+    rows.forEach(function(r){
+      var okT = (f === 'all') || (r.getAttribute('data-t') === f) || (r.getAttribute('data-t') === 'both');
+      var okQ = !q || (r.getAttribute('data-name') || '').indexOf(q) !== -1;
+      r.style.display = (okT && okQ) ? '' : 'none';
+    });
+  }
+  segBtns.forEach(function(b){ b.addEventListener('click', function(){
+    segBtns.forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on'); f = b.getAttribute('data-f'); applyFilter();
+  }); });
+  if (mq) mq.addEventListener('input', applyFilter);
+}
+</script>
+</body>
+</html>
